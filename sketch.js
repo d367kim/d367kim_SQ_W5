@@ -121,15 +121,16 @@ let gameWon = false;
 // Images
 let characterSheet;
 let coinSheet;
-
+let bgImg; 
 // ============================================================
 // preload()
 // Runs once before setup(). Loads both sprite sheets so they
 // are ready before the sketch tries to use them.
 // ============================================================
 function preload() {
-  characterSheet = loadImage("assets/images/walking.png");
-  coinSheet      = loadImage("assets/images/coin_gold.png");
+  characterSheet = loadImage("assets/images/astronaut.png");
+  coinSheet      = loadImage("assets/images/coins.png");
+  bgImg          = loadImage("assets/images/background.png");
 }
 
 // ============================================================
@@ -177,7 +178,9 @@ function setup() {
 // appears on top of it.
 // ============================================================
 function draw() {
-  background(20);
+  imageMode(CORNER);
+image(bgImg, 0, 0, width, height);
+imageMode(CENTER);
 
   drawMaze();
   updateCoins();
