@@ -1,34 +1,27 @@
-# Week 5 Example 3 — Maze with Animated Character and Coins
-
-## What This Example Demonstrates
-
-> **Note for students:** This section is included in example files only to help you study. Do not include it in your Side Quest submissions.
-
-This example combines sprite sheet animation, coin objects, and a tile-based maze into a complete mini-game with wall collision, coin collection, and a locked exit.
-
-- **2D array as a map** — the maze is stored as a grid of numbers; each number represents a tile type (floor, wall, coin, exit); the array drives both the visual layout and the game logic
-- **Canvas sized to the maze** — `createCanvas(TILE_SIZE * MAZE[0].length, TILE_SIZE * MAZE.length)` sizes the canvas to fit the maze exactly rather than using fixed numbers
-- **Building objects from map data** — `setup()` scans the maze array to find coin tiles and start position; coins are created as objects at runtime rather than hardcoded
-- **`rectMode(CORNER)`** — switches `rect()` back to top-left positioning for drawing tiles; used here because tile coordinates come from the array index, not a centre point
-- **Corner-based wall collision** — checks all four corners of the player's collision box against the maze tile at each corner; pushes the player out from the direction with the smallest overlap
-- **Collision box smaller than sprite** — `hw` and `hh` are set smaller than the visible sprite so the player can navigate tight corridors without getting caught on corners
-- **`dist()`** — returns the distance between two points; used for both coin collection and exit detection with a threshold based on `TILE_SIZE`
-- **Locked exit** — the exit tile changes colour and only activates when `coinsCollected === coins.length`; a single boolean condition controls both the visual and the logic
-- **`animateSprite()` and `drawCharacter()`** — same as Example 1; see that file for full notes on sprite sheet animation
-- **`updateCoins()` and `drawCoins()` separation** — same pattern as Example 2; update logic and drawing are kept in separate functions
+# Week 5 Example 3 — Space Maze Adventure
 
 ## Setup and Interaction Instructions
 
-To run the sketch locally, open `index.html` in Google Chrome using Live Server.
+To run the sketch locally, open index.html in Google Chrome using Live Server.
 
-**Controls:** WASD to move.
+Image files must be present in assets/images/ before running:
 
-Collect all 3 coins then reach the green exit tile to win.
+astronaut.png
+coins.png
+background.png
 
-**Opening the Chrome Console**
+Controls: WASD to move.
 
-- **Windows:** Press `F12` or `Ctrl + Shift + J`, then click the **Console** tab
-- **Mac:** Press `Cmd + Option + J`
+Objective:
+
+Collect all 3 Space Coins
+Unlock the portal
+Reach the exit to complete the mission
+
+Opening the Chrome Console
+
+Windows: Press F12 or Ctrl + Shift + J, then click the Console tab
+Mac: Press Cmd + Option + J
 
 The console will show any errors in your sketch.
 
@@ -36,11 +29,20 @@ The console will show any errors in your sketch.
 
 | File | Source |
 |------|--------|
-| `assets/images/walking.png` | Slynyrd, Pixelblog 22: Top Down Character Sprites |
-| `assets/images/coin_gold.png` | Bellanger, C., Animated Coins — OpenGameArt.org |
+| `assets/images/walking.png` | [1] Slynyrd, Pixelblog 22: Top Down Character Sprites |
+| `assets/images/coin_gold.png` | [2] Bellanger, C., Animated Coins — OpenGameArt.org |
+| `assets/images/astronaut.png` | [3] Sara Spiegelberg – Free Pixel Art Character Asset: Astronaut |
+| `assets/images/coins.png` | [4] Totus Lotus – Pixel Coins |
+| `assets/images/background.png` | [5] Deep Fold – Pixel Planet Generator|
 
 ## References
 
-Bellanger, C. n.d. *Animated Coins*. OpenGameArt.org. Retrieved May 1, 2026, from https://opengameart.org/content/animated-coins-0
+[1] Bellanger, C. n.d. *Animated Coins*. OpenGameArt.org. Retrieved May 1, 2026, from https://opengameart.org/content/animated-coins-0
 
-Slynyrd. 2019. *Pixelblog 22: Top Down Character Sprites*. Slynyrd Blog. Retrieved May 1, 2026, from https://www.slynyrd.com/blog/2019/10/21/pixelblog-22-top-down-character-sprites
+[2] Slynyrd. 2019. *Pixelblog 22: Top Down Character Sprites*. Slynyrd Blog. Retrieved May 1, 2026, from https://www.slynyrd.com/blog/2019/10/21/pixelblog-22-top-down-character-sprites
+
+[3] Spiegelberg, Sara. n.d. Free Pixel Art Character Asset: Astronaut. itch.io. Retrieved June 10, 2026, from https://saraspiegelberg.itch.io/free-pixel-art-character-asset-astronaut
+
+[4] Totus Lotus. n.d. Pixel Coins. itch.io. Retrieved June 10, 2026, from https://totuslotus.itch.io/pixel-coins
+
+[5] Deep Fold. n.d. Pixel Planet Generator. itch.io. Retrieved June 10, 2026, from https://deep-fold.itch.io/pixel-planet-generator
