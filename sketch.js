@@ -14,11 +14,11 @@
 // Same structure as Example 1. See that file for full notes.
 // ------------------------------------------------------------
 const SPRITE = {
-  frameWidth:  75,
-  frameHeight: 150,
+  frameWidth:  32,
+  frameHeight: 32,
   numFrames:   4,
   animSpeed:   20,
-  scale:       0.5,
+  scale:       1.5,
   rows: {
     down:  0,
     up:    1,
@@ -26,11 +26,11 @@ const SPRITE = {
     left:  3,
   },
   offsets: {
-    down:  { x: 0, y: 0  },
-    up:    { x: 0, y: 0  },
-    right: { x: 0, y: 10 },
-    left:  { x: 0, y: 20 },
-  },
+  down:  { x: 0, y: 0 },
+  up:    { x: 0, y: 0 },
+  right: { x: 0, y: 0 },
+  left:  { x: 0, y: 0 },
+},
 };
 
 // ------------------------------------------------------------
@@ -75,11 +75,11 @@ const MAZE = [
 
 // Colours for each tile type — stored as RGB arrays
 const TILE_COLORS = {
-  0: [40,  40,  50 ], // floor — dark grey
-  1: [80,  60,  100], // wall  — purple-grey
-  2: [40,  40,  50 ], // start — same as floor
-  3: [40,  40,  50 ], // coin  — same as floor (coin drawn on top)
-  4: [60,  100, 80 ], // exit  — green tint when locked
+  0: [10, 15, 35],
+  1: [60, 80, 140],
+  2: [10, 15, 35],
+  3: [10, 15, 35],
+  4: [120, 60, 180],
 };
 
 // ------------------------------------------------------------
@@ -185,6 +185,7 @@ imageMode(CENTER);
   drawMaze();
   updateCoins();
   drawCoins();
+  drawExit();
   handleInput();
   resolveWallCollisions();
   checkCoinCollection();
@@ -214,19 +215,15 @@ function drawMaze() {
     for (let col = 0; col < MAZE[row].length; col++) {
       let tile = MAZE[row][col];
 
-      // Exit tile changes colour when all coins are collected
-      if (tile === 4) {
-        if (coinsCollected === coins.length) {
-          fill(30, 200, 120); // bright green — exit is open
-        } else {
-          fill(60, 100, 80);  // dim green — exit is locked
-        }
-      } else {
-        let c = TILE_COLORS[tile];
-        fill(c[0], c[1], c[2]);
+      if (tile === 1) {
+        fill(60, 50, 100, 220);
+        rect(col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE);
       }
 
-      rect(col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+      if (tile === 0 || tile === 2 || tile === 3 || tile === 4) {
+        fill(5, 8, 20, 120);
+        rect(col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+      }
     }
   }
 }
@@ -267,6 +264,26 @@ function drawCoins() {
     let dh = COIN.frameHeight * COIN.scale;
 
     image(coinSheet, coin.x, coin.y, dw, dh, sx, 0, COIN.frameWidth, COIN.frameHeight);
+  }
+}
+
+
+function drawExit() {
+  for (let row = 0; row < MAZE.length; row++) {
+    for (let col = 0; col < MAZE[row].length; col++) {
+      if (MAZE[row][col] === 4) {
+        let exitX = col * TILE_SIZE + TILE_SIZE / 2;
+        let exitY = row * TILE_SIZE + TILE_SIZE / 2;
+
+        fill(120, 180, 255, 100);
+ellipse(exitX, exitY, 65, 65);
+
+fill(255, 220, 80, 160);
+ellipse(exitX, exitY, 45, 45);
+
+image(coinSheet, exitX, exitY, 48, 48, 0, 0, COIN.frameWidth, COIN.frameHeight);
+      }
+    }
   }
 }
 
@@ -464,12 +481,12 @@ function drawHUD() {
   textSize(14);
   textAlign(LEFT);
   textFont("monospace");
-  text("Coins: " + coinsCollected + " / " + coins.length, 10, 20);
+  text("Space Coins: " + coinsCollected + " / " + coins.length, 10, 20);
 
   // Show exit hint once all coins are collected
   if (coinsCollected === coins.length) {
     fill(30, 200, 120);
-    text("Exit is open! Find the green tile.", 10, 40);
+    text("Portal is open! Reach the final coin.", 10, 40);
   }
 }
 
@@ -487,9 +504,9 @@ function drawWinScreen() {
   fill(255);
   textAlign(CENTER);
   textSize(48);
-  text("You Escaped!", width / 2, height / 2 - 20);
+  text("Mission Complete!", width / 2, height / 2 - 20);
 
   textSize(16);
   fill(180);
-  text("All coins collected", width / 2, height / 2 + 20);
+  text("All Space Coins Collected", width / 2, height / 2 + 20);
 }
